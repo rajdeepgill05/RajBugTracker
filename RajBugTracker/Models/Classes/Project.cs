@@ -13,8 +13,12 @@ namespace RajBugTracker.Models.Classes
         public Project()
         {
             Users = new HashSet<ApplicationUser>();
+            Tickets = new HashSet<Ticket>();
+
         }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
+
     }
 }

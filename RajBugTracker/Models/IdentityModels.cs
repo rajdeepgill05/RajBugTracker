@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,7 +12,15 @@ namespace RajBugTracker.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+       
+        public string DisplayName { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
         public string Name { get; set; }
+        [InverseProperty("Creator")]
+        public virtual ICollection<Ticket> CreatedTickets { get; set; }
+        [InverseProperty("AssignedUser")]
+        public virtual ICollection<Ticket> AssignedTickets { get; set; }
 
         public ApplicationUser()
         {
@@ -41,7 +50,15 @@ namespace RajBugTracker.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.Project> Projects { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
+        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.Ticket> Tickets { get; set; }
+
+        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketStatus> TicketStatuses { get; set; }
+
+        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketPriorty> TicketPriorties { get; set; }
+
+        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketType> TicketTypes { get; set; }
+        
     }
 }

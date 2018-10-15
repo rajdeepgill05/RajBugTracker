@@ -1,6 +1,6 @@
-﻿@model IEnumerable<RajBugTracker.Models.ApplicationUser>
+﻿@model IEnumerable<RajBugTracker.Models.UserListViewModel>
 
-@{
+@{  
     ViewBag.Title = "Index";
 }
 <div id="page-wrapper">
@@ -11,20 +11,17 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Blank Page
-                    <small>Subheading</small>
+                   Application Users
                 </h1>
                 <ol class="breadcrumb">
                     <li>
-                        <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                        <i class="fa fa-dashboard"></i>  <a href="/home">Dashboard</a>
                     </li>
                     <li class="active">
-                        <i class="fa fa-file"></i> Blank Page
+                        <i class="fa fa-file"></i> Application Users
                     </li>
                 </ol>
-                <p>
-                    @Html.ActionLink("Create New", "Create")
-                </p>
+               
                 <table class="table">
                     <tr>
                         <th>
@@ -33,22 +30,27 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Email)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RoleName)
+                        </th>
                         <th></th>
                     </tr>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
-
-                            <td>
-                                @Html.ActionLink("Change Role", "ChangeRole", new { id = item.Id })
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @item.RoleName
+                        </td>
+                        <td>
+                            @Html.ActionLink("Change Role", "ChangeRole", new { id = item.Id })
+                        </td>
+                    </tr>
                     }
                 </table>
             </div>

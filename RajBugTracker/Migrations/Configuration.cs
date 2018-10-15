@@ -19,6 +19,7 @@ namespace RajBugTracker.Migrations
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
             if (!(context.Roles.Any(p => p.Name == "Admin")))
             {
                 roleManager.Create(new IdentityRole("Admin"));
@@ -31,9 +32,9 @@ namespace RajBugTracker.Migrations
             {
                 roleManager.Create(new IdentityRole("Developer"));
             }
-            if (!context.Roles.Any(p => p.Name == "Submiter"))
+            if (!context.Roles.Any(p => p.Name == "Submitter"))
             {
-                roleManager.Create(new IdentityRole("Submiter"));
+                roleManager.Create(new IdentityRole("Submitter"));
             }
 
             ApplicationUser adminUser;
@@ -53,6 +54,22 @@ namespace RajBugTracker.Migrations
             {
                 userManager.AddToRole(adminUser.Id, "admin");
             }
+
+            context.TicketTypes.AddOrUpdate(x => x.Id,
+                new Models.Classes.TicketType() { Id = 1, Name = "Major Software Updates" },
+                new Models.Classes.TicketType() { Id = 2, Name = "Bug Fixes" },
+                new Models.Classes.TicketType() { Id = 3, Name = "Database Managment" },
+                new Models.Classes.TicketType() { Id = 4, Name = "Helpers Creation" });
+            context.TicketPriorties.AddOrUpdate(x => x.Id,
+                new Models.Classes.TicketPriorty() {Id = 1, Name = "Urgent"},
+                new Models.Classes.TicketPriorty() {Id = 2, Name = "Important"},
+                new Models.Classes.TicketPriorty() {Id = 3, Name = "None"});
+
+            context.TicketStatuses.AddOrUpdate(x => x.Id,
+                new Models.Classes.TicketStatus() { Id = 1, Name = "Started" },
+                new Models.Classes.TicketStatus() { Id = 2, Name = "In-Progress" },
+                new Models.Classes.TicketStatus() { Id = 3, Name = "Finished" });
+            context.SaveChanges();
 
         }
     }

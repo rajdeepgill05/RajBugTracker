@@ -23,8 +23,18 @@ namespace RajBugTracker.Controllers
         // GET: ApplicationUsers
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            var users = db.Users.Select(user => new UserListViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                RoleName = db.Roles.FirstOrDefault(role => role.Id == user.Roles.FirstOrDefault().RoleId).Name
+            }).ToList();
+
+            return View(users);
         }
+
+
         public ActionResult ChangeRole(string id)
         {
             var model = new UserRoleViewModel();

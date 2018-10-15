@@ -6,11 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using RajBugTracker.Models;
 using RajBugTracker.Models.Classes;
 
 namespace RajBugTracker.Controllers
 {
+    [Authorize(Roles = "Admin, Project Manager")]
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -114,6 +117,60 @@ namespace RajBugTracker.Controllers
             db.Projects.Remove(project);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        //Projects/AssignUsers
+
+        public ActionResult AssignUsers(int id)
+        {
+            var model = new ProjectAssignViewModel();
+
+            model.Id = id;
+
+            var project = db.Projects.FirstOrDefault(p => p.Id == id);
+            var users = db.Users.ToList();
+            var userIdsAssignedToProject = project.Users
+                .Select(p => p.Id).ToList();
+
+            model.UserList = new MultiSelectList(users, "Id", "Name", userIdsAssignedToProject);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AssignUsers(ProjectAssignViewModel model)
+        {
+          
+            //Step 1: Find the Project
+            var project = db.Projects.FirstOrDefault(p => p.Id == model.Id);
+            
+
+            
+            //Step 3: Remove all assigned users from this project
+            var assignedUsers = project.Users.ToList();
+
+            foreach (var user in assignedUsers)
+            {
+                project.Users.Remove(user);
+            }
+
+            //Step3: Assign Users to the project
+            if (model.SelectedUsers != null)
+            {
+                foreach (var userId in model.SelectedUsers)
+                {
+                    var user = db.Users.FirstOrDefault(p => p.Id == userId);
+
+                    project.Users.Add(user);
+                }
+                
+            }
+
+            //Step4 : Save Changes to the Database
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+
         }
 
         protected override void Dispose(bool disposing)
