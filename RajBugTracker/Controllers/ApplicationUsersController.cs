@@ -26,7 +26,7 @@ namespace RajBugTracker.Controllers
             var users = db.Users.Select(user => new UserListViewModel
             {
                 Id = user.Id,
-                Name = user.Name,
+                Name = user.UserName,
                 Email = user.Email,
                 RoleName = db.Roles.FirstOrDefault(role => role.Id == user.Roles.FirstOrDefault().RoleId).Name
             }).ToList();
@@ -41,12 +41,12 @@ namespace RajBugTracker.Controllers
             var userRoleHelper = new UserRoleHelper();
 
             model.Id = id;
-            model.Name = db.Users.FirstOrDefault(p => p.Id == id).Name;
+            model.Name = db.Users.FirstOrDefault(p => p.Id == id).UserName;
 
             var roles = userRoleHelper.GetAllRoles();
             var userRoles = userRoleHelper.GetUserRoles(id);
 
-            model.Roles = new MultiSelectList(roles, "Name", "Name", userRoles);
+            model.Roles = new MultiSelectList(roles, "Name", "UserName", userRoles);
             
             return View(model);
         }

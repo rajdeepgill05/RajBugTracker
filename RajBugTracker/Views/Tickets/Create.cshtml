@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","Tickets","TicketAttachments",FormMethod.Post, new {@enctype = "Multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -28,7 +28,7 @@
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
     </div>
-    
+
     <div class="form-group">
         @Html.LabelFor(model => model.TicketTypeId, "TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -43,16 +43,16 @@
             @Html.ValidationMessageFor(model => model.TicketPriortyId, "", new { @class = "text-danger" })
         </div>
     </div>
-    
-    @*
-            <div class="form-group">
+
+
+    @*<div class="form-group">
            @Html.LabelFor(model => model.TicketStatusId, "TicketStatusId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
             </div>
-        </div>
-    *@
+        </div>*@
+
     @*<div class="form-group">
             @Html.LabelFor(model => model.AssignedUserId, "AssignedUSerId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -68,6 +68,14 @@
         </div>
     </div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.Attachments, "Attachments", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="File" id="fileUpload" />
+            @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

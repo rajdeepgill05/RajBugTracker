@@ -132,7 +132,7 @@ namespace RajBugTracker.Controllers
             var userIdsAssignedToProject = project.Users
                 .Select(p => p.Id).ToList();
 
-            model.UserList = new MultiSelectList(users, "Id", "Name", userIdsAssignedToProject);
+            model.UserList = new MultiSelectList(users, "Id", "Username", userIdsAssignedToProject);
 
             return View(model);
         }
@@ -172,7 +172,18 @@ namespace RajBugTracker.Controllers
             return RedirectToAction("Index");
 
         }
+        //  View Users Assigned To the Projects
 
+        public ActionResult ViewUsers(int id)
+        {
+            var projects = db.Users.Select(user => new AssignedUsersViewModel
+            {
+                Id = user.Id,
+                Name = user.UserName,
+                
+            }).ToList();
+            return View(projects);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

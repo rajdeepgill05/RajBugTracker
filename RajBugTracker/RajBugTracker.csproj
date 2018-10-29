@@ -199,18 +199,27 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\TicketAttachmentsController.cs" />
+    <Compile Include="Controllers\TicketCommentsController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\FileUploadValidationHelper.cs" />
     <Compile Include="Helper\UserRoleHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AssignedUsersViewModel.cs" />
     <Compile Include="Models\Classes\Project.cs" />
     <Compile Include="Models\Classes\Ticket.cs" />
+    <Compile Include="Models\Classes\TicketAttachment.cs" />
+    <Compile Include="Models\Classes\TicketComment.cs" />
+    <Compile Include="Models\Classes\TicketHistory.cs" />
+    <Compile Include="Models\Classes\TicketNotification.cs" />
     <Compile Include="Models\Classes\TicketPriorty.cs" />
     <Compile Include="Models\Classes\TicketStatus.cs" />
     <Compile Include="Models\Classes\TicketType.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProjectAssignViewModel.cs" />
@@ -344,9 +353,19 @@
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
+    <Content Include="Views\TicketComments\Create.cshtml" />
+    <Content Include="Views\TicketComments\Index.cshtml" />
+    <Content Include="Views\Projects\ViewUsers.cshtml" />
+    <Content Include="Views\Tickets\AssignUsers.cshtml" />
+    <Content Include="Views\TicketAttachments\Create.cshtml" />
+    <Content Include="Views\TicketAttachments\Delete.cshtml" />
+    <Content Include="Views\TicketAttachments\Details.cshtml" />
+    <Content Include="Views\TicketAttachments\Edit.cshtml" />
+    <Content Include="Views\TicketAttachments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helper\Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css.map" />

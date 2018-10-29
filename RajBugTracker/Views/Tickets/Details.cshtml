@@ -1,82 +1,202 @@
-﻿@model RajBugTracker.Models.Classes.Ticket
+﻿@using Microsoft.AspNet.Identity
+@model RajBugTracker.Models.Classes.Ticket
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div id="page-wrapper">
 
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="dl-horizontal">
-       
+    <div class="container-fluid">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Assignee.DisplayName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Assignee.DisplayName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Creater.DisplayName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Creater.DisplayName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketPriorty.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriorty.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
- 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    @ViewBag.Title
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="/home">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-file"></i> Tickets
+                    </li>
+                </ol>
 
-    </dl>
+            </div>
+        </div>
+        <!-- /.row -->
+        <!-- /.container-fluid -->
+        <div>
+            <h4>Ticket</h4>
+            <hr />
+            <dl class="dl-horizontal">
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AssignedUser)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AssignedUser.UserName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Creator)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Creator.UserName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Project)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Project.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TicketPriorty)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketPriorty.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TicketStatus)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketStatus.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TicketType)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketType.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Created)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Created)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Updated)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Updated)
+                </dd>
+
+            </dl>
+            <div>
+                Comments:
+                @foreach (var comment in Model.Comments)
+                {
+
+                    <p>
+
+                        @comment.Comment - by @User.Identity.GetUserName() - @comment.Created.ToString("dd/MM/yyyy HH:mm")
+
+                    </p>
+
+                    {
+                        <a href="@Url.Action("Edit", "TicketComments", new { id = comment.Id } )">Edit Comment | </a>
+                        <a href="@Url.Action("Delete", "TicketComments", new { id = comment.Id })">Delete Comment</a>
+                    }
+                }
+            </div>
+            <div>
+                Attachments:
+                @foreach (var att in Model.Attachments)
+                {
+                    <p>
+                        @att.FileUrl - Added by @User.Identity.GetUserName() - @att.Created.ToString("dd/MM/yyyy HH:mm")
+                    </p>
+                    {
+                        <a href="@Url.Action("Edit", "TicketAttachments", new { id = att.Id } )">Edit Attachment | </a>
+                        <a href="@Url.Action("Delete", "TicketAttachments", new { id = att.Id })">Delete Attachment</a>
+                    }
+                }
+            </div>
+
+            <div>
+                @foreach (var att in Model.Attachments)
+                {
+                    <hr />
+                    @att.User.UserName
+                    <p style="text-align: left; margin-left: 70px">
+                        <a href="@att.FileUrl">@att.FileUrl </a>
+                        <span style="font-size: 10px; text-align: right">
+                            - @att.Created.ToString("dd/mm/yyyy hh:mm")
+                        </span>
+                    </p>
+                }
+            </div>
+
+
+        </div>
+
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+        <h2>History</h2>
+        <table id="wer" class="table">
+            <thead>
+            <tr>
+                <th>
+                    Property Changed
+                </th>
+                <th>
+                    Old Value
+                </th>
+                <th>
+                    New Value
+                </th>
+                <th>
+                    Changed
+                </th>
+                <th>
+                    Modifier
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Histories)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OldValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NewValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Changed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.UserName)
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<!-- /#page-wrapper -->
+

@@ -13,10 +13,7 @@ namespace RajBugTracker.Models
     public class ApplicationUser : IdentityUser
     {
        
-        public string DisplayName { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public string Name { get; set; }
+        
         [InverseProperty("Creator")]
         public virtual ICollection<Ticket> CreatedTickets { get; set; }
         [InverseProperty("AssignedUser")]
@@ -25,9 +22,13 @@ namespace RajBugTracker.Models
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
+            TicketComments = new HashSet<TicketComment>();
+
         }
 
         public virtual ICollection<Project> Projects { get; set; }
+
+        public virtual ICollection<TicketComment> TicketComments { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -59,6 +60,12 @@ namespace RajBugTracker.Models
         public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketPriorty> TicketPriorties { get; set; }
 
         public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketType> TicketTypes { get; set; }
-        
+
+        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketComment> TicketComments { get; set; }
+
+        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketAttachment> TicketAttachments { get; set; }
+
+        public System.Data.Entity.DbSet<RajBugTracker.Models.Classes.TicketHistory> TicketHistories { get; set; }
+
     }
 }

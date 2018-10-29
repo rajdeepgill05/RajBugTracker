@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 
 namespace RajBugTracker.Models.Classes
@@ -43,7 +44,19 @@ namespace RajBugTracker.Models.Classes
 
         public Ticket()
         {
+            Users = new HashSet<ApplicationUser>();
+
             this.Created = DateTime.Now;
+            Comments = new HashSet<TicketComment>();
+            Attachments = new HashSet<TicketAttachment>();
+            Histories = new HashSet<TicketHistory>();
         }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<TicketComment> Comments { get; set; }
+        public virtual ICollection<TicketAttachment> Attachments { get; set; }
+        public virtual ICollection<TicketHistory> Histories { get; set; }
+
+
+
     }
 }

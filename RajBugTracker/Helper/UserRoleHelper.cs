@@ -5,6 +5,7 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RajBugTracker.Models;
+using RajBugTracker.Models.Classes;
 
 namespace RajBugTracker.Helper
 {
@@ -40,6 +41,12 @@ namespace RajBugTracker.Helper
 
             return Db.Users.Where(p => p.Roles.Any(t => t.RoleId == roleId)).ToList();
         }
-    
+        public List<Project> GetProjects(string Id)
+        {
+            var user = UserManager.FindById(Id);
+            var projects = user.Projects.ToList();
+            return projects;
+        }
+
     }
 }
